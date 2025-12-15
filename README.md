@@ -19,3 +19,6 @@ A full-stack web application for managing patients and insurance policies.
 cd backend
 npm install
 npm start
+
+
+
