@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthSure Portal</title>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+
+<body>
+
+
+    <div class="header">
+
+        <div class="logo-section">
+            <div class="logo">♡</div>
+            <div class="title">HealthSure Policy Operations Portal</div>
+        </div>
+
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search patients by name / phone / email" />
+        </div>
+
+    </div>
+
+    <div class="container">
+        
+        <div class="left-panel">
+            
+            <div class="patients-section">
+
+                <button class="onboard-btn" onclick="openModal()">
+                    <span>+</span>
+                    <span>Onboard New Patient</span>
+                </button>
+
+                <div class="table-header">
+                    <div>Name</div>
+                    <div>Phone</div>
+                    <div>City</div>
+                    <div>Active Policies</div>
+                </div>
+
+                
+            </div>
+
+            <div class="stats-section">
+
+                <div class="stat-card">
+
+                    <div class="stat-label">Active Policies</div>
+                    
+                    <div class="stat-value">
+                        <span id="activeCount">0</span>
+                        <span class="stat-icon up">↑</span>
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Cancelled Policies</div>
+                    <div class="stat-value">
+                        <span id="cancelledCount">0</span>
+                        <span class="stat-icon down">↓</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Expired Policies</div>
+                    <div class="stat-value">
+                        <span id="expiredCount">0</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Expiring in 30 days</div>
+                    <div class="stat-value">
+                        <span id="expiringCount">0</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="right-panel">
+
+        
+            <div class="patient-summary-card">
+
+                <div class="panel-title">Patient Summary Card</div>
+                
+                <div class="patient-info">
+                    
+                    <div class="patient-avatar" id="patient-avatar"></div>
+
+                    <div class="patient-details">
+
+                        <div class="detail-item">
+                            <div class="detail-label">Name</div>
+                            <div class="detail-value">--</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Age</div>
+                            <div class="detail-value">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Phone</div>
+                            <div class="detail-value">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">--</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">City</div>
+                            <div class="detail-value">--</div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+            </div>
+
+            <div class="policies-section">
+
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+
+                    <div class="section-title">Policies</div>
+                    <button class="onboard-btn" id="addPolicyBtn" style="display:none;" onclick="openPolicyModal()">
+                        + Add Policy
+                    </button>
+
+                </div>
+
+
+                <div class="policy-table">
+
+                    <div class="policy-header">
+                        <div>Policy #</div>
+                        <div>Plan</div>
+                        <div>Sum Insured</div>
+                        <div>Start Date</div>
+                        <div>End Date</div>
+                        <div>Status</div>
+                        <div>Actions</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+
+        <div class="modal" onclick="event.stopPropagation()">
+
+            <div class="modal-title">Onboard New Patient</div>
+
+            <div class="progress-bar">
+                <span class="progress-text" id="progressText">Step 1 of 2</span>
+                <div class="progress-step active" id="step1">1</div>
+                <div class="progress-line active"></div>
+                <div class="progress-step" id="step2">2</div>
+            </div>
+
+
+            <div class="form-grid" id="formStep1">
+
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-input" id="firstName" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-input" id="lastName" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="date" class="form-input" id="dob" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="email" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" id="phone" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-input" id="address" />
+                </div>
+            </div>
+
+            
+            <div class="form-grid" id="formStep2" style="display:none;">
+                <div class="form-group" style="grid-column: span 2;">
+                    <label class="form-label">Upload Patient Image</label>
+                    <input type="file" class="form-input" id="patientImage" accept="image/*" />
+                </div>
+            </div>
+
+
+            <div class="modal-buttons">
+                <button class="modal-btn btn-cancel" onclick="closeModal()">Cancel</button>
+
+                <div style="display:flex; gap:15px;">
+                    <button class="modal-btn btn-back" id="backBtn" style="display:none;">Back</button>
+                    <button class="modal-btn btn-next" id="nextBtn">Next</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="policyModalOverlay" class="modal-overlay">
+
+        <div class="modal" onclick="event.stopPropagation()">
+
+            <div class="modal-title">Add Policy</div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label class="form-label">Policy Number</label>
+                    <input type="text" class="form-input" id="policyNo">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Plan</label>
+                    <input type="text" class="form-input" id="plan">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Sum Insured</label>
+                    <input type="number" class="form-input" id="sumInsured">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" class="form-input" id="startDate">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">End Date</label>
+                    <input type="date" class="form-input" id="endDate">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-input" id="status">
+                        <option value="Active">Active</option>
+                        <option value="Expired">Expired</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="modal-buttons">
+                <button class="modal-btn btn-cancel" onclick="closePolicyModal()">Cancel</button>
+                <button class="modal-btn btn-next" id="savePolicyBtn">Save Policy</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="renewPolicyModal" class="modal-overlay" onclick="closeRenewModalOnOverlay(event)">
+
+        <div class="modal" onclick="event.stopPropagation()">
+
+            <div class="modal-title">Renew Policy</div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label class="form-label">Start Date</label>
+                    <input type="date" class="form-input" id="renewStartDate">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">End Date</label>
+                    <input type="date" class="form-input" id="renewEndDate">
+                </div>
+
+            </div>
+
+            <div class="modal-buttons">
+
+                <button class="modal-btn btn-cancel" onclick="closeRenewModal()">Cancel</button>
+                <button class="modal-btn btn-next" id="confirmRenewBtn">Renew</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="./assets/js/script.js"></script>
+
+</body>
+</html>
