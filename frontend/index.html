@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!--
+*********************************************************************************************************
+ *  @File Name        : index.html
+ *  @Author           : <Siddhant Mahato>
+ *  @Company          : Antrazal
+ *  @Date             : 16-12-2025
+ *  @Description      :
+ *      Main frontend entry point for HealthSure Policy Operations Portal.
+ *      Handles patient onboarding, patient listing, patient summary,
+ *      policy management, and policy statistics dashboard.
+ *
+-->
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +23,15 @@
 
 <body>
 
-
+    <!--
+    /**
+     *   Code block brief    : Application header with branding and patient search
+     *   Author              : <Siddhant Mahato>
+     *   Company             : Antrazal
+     *   Date                : 16-12-2025
+     *   STARTS HERE
+     */
+    -->
     <div class="header">
 
         <div class="logo-section">
@@ -23,11 +45,25 @@
         </div>
 
     </div>
+    <!--
+    /**
+     *   ENDS HERE
+     */
+    -->
 
     <div class="container">
-        
+
         <div class="left-panel">
-            
+
+            <!--
+            /**
+             *   Code block brief    : Patient onboarding and patient list section
+             *   Description         :
+             *      Provides onboarding option and patient list headers.
+             *      Patient rows are rendered dynamically via JavaScript.
+             *   STARTS HERE
+             */
+            -->
             <div class="patients-section">
 
                 <button class="onboard-btn" onclick="openModal()">
@@ -42,20 +78,30 @@
                     <div>Active Policies</div>
                 </div>
 
-                
             </div>
+            <!--
+            /**
+             *   ENDS HERE
+             */
+            -->
 
+            <!--
+            /**
+             *   Code block brief    : Policy statistics dashboard
+             *   Description         :
+             *      Displays aggregated policy metrics including
+             *      active, cancelled, expired, and expiring policies.
+             *   STARTS HERE
+             */
+            -->
             <div class="stats-section">
 
                 <div class="stat-card">
-
                     <div class="stat-label">Active Policies</div>
-                    
                     <div class="stat-value">
                         <span id="activeCount">0</span>
                         <span class="stat-icon up">↑</span>
                     </div>
-
                 </div>
 
                 <div class="stat-card">
@@ -81,18 +127,31 @@
                 </div>
 
             </div>
+            <!--
+            /**
+             *   ENDS HERE
+             */
+            -->
 
         </div>
 
         <div class="right-panel">
 
-        
+            <!--
+            /**
+             *   Code block brief    : Selected patient summary card
+             *   Description         :
+             *      Displays selected patient details including
+             *      name, age, phone, email, city, and avatar.
+             *   STARTS HERE
+             */
+            -->
             <div class="patient-summary-card">
 
                 <div class="panel-title">Patient Summary Card</div>
-                
+
                 <div class="patient-info">
-                    
+
                     <div class="patient-avatar" id="patient-avatar"></div>
 
                     <div class="patient-details">
@@ -101,30 +160,47 @@
                             <div class="detail-label">Name</div>
                             <div class="detail-value">--</div>
                         </div>
-                        
+
                         <div class="detail-item">
                             <div class="detail-label">Age</div>
                             <div class="detail-value">--</div>
                         </div>
+
                         <div class="detail-item">
                             <div class="detail-label">Phone</div>
                             <div class="detail-value">--</div>
                         </div>
+
                         <div class="detail-item">
                             <div class="detail-label">Email</div>
                             <div class="detail-value">--</div>
                         </div>
+
                         <div class="detail-item">
                             <div class="detail-label">City</div>
                             <div class="detail-value">--</div>
                         </div>
+
                     </div>
 
-                    
                 </div>
 
             </div>
+            <!--
+            /**
+             *   ENDS HERE
+             */
+            -->
 
+            <!--
+            /**
+             *   Code block brief    : Patient policy management section
+             *   Description         :
+             *      Displays all policies linked to the selected patient
+             *      and allows adding or renewing policies.
+             *   STARTS HERE
+             */
+            -->
             <div class="policies-section">
 
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -135,7 +211,6 @@
                     </button>
 
                 </div>
-
 
                 <div class="policy-table">
 
@@ -152,11 +227,27 @@
                 </div>
 
             </div>
+            <!--
+            /**
+             *   ENDS HERE
+             */
+            -->
 
         </div>
 
     </div>
 
+    <!--
+    *******************************************************************************************************
+    *   @Parent File        : index.html
+    *   @Component Name     : Patient Onboarding Modal
+    *   @Author             : <Siddhant Mahato>
+    *   @Company            : Antrazal
+    *   @Date               : 16-12-2025
+    *   @Description        :
+    *       Multi-step modal for onboarding new patients.
+    *******************************************************************************************************
+    -->
     <div id="modalOverlay" class="modal-overlay" onclick="closeModalOnOverlay(event)">
 
         <div class="modal" onclick="event.stopPropagation()">
@@ -169,7 +260,6 @@
                 <div class="progress-line active"></div>
                 <div class="progress-step" id="step2">2</div>
             </div>
-
 
             <div class="form-grid" id="formStep1">
 
@@ -202,16 +292,15 @@
                     <label class="form-label">Address</label>
                     <input type="text" class="form-input" id="address" />
                 </div>
+
             </div>
 
-            
             <div class="form-grid" id="formStep2" style="display:none;">
                 <div class="form-group" style="grid-column: span 2;">
                     <label class="form-label">Upload Patient Image</label>
                     <input type="file" class="form-input" id="patientImage" accept="image/*" />
                 </div>
             </div>
-
 
             <div class="modal-buttons">
                 <button class="modal-btn btn-cancel" onclick="closeModal()">Cancel</button>
@@ -226,7 +315,11 @@
 
     </div>
 
-
+    <!--
+    *******************************************************************************************************
+    *   @Component Name     : Add Policy Modal
+    *******************************************************************************************************
+    -->
     <div id="policyModalOverlay" class="modal-overlay">
 
         <div class="modal" onclick="event.stopPropagation()">
@@ -275,11 +368,16 @@
                 <button class="modal-btn btn-cancel" onclick="closePolicyModal()">Cancel</button>
                 <button class="modal-btn btn-next" id="savePolicyBtn">Save Policy</button>
             </div>
+
         </div>
+
     </div>
 
-
-
+    <!--
+    *******************************************************************************************************
+    *   @Component Name     : Renew Policy Modal
+    *******************************************************************************************************
+    -->
     <div id="renewPolicyModal" class="modal-overlay" onclick="closeRenewModalOnOverlay(event)">
 
         <div class="modal" onclick="event.stopPropagation()">
@@ -301,16 +399,21 @@
             </div>
 
             <div class="modal-buttons">
-
                 <button class="modal-btn btn-cancel" onclick="closeRenewModal()">Cancel</button>
                 <button class="modal-btn btn-next" id="confirmRenewBtn">Renew</button>
-
             </div>
 
         </div>
 
     </div>
 
+    <!--
+    /**
+     *   Code block brief    : JavaScript integration layer
+     *   Description         :
+     *      Binds UI components with business logic defined in script.js.
+     */
+    -->
     <script src="./assets/js/script.js"></script>
 
 </body>
