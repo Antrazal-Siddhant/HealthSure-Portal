@@ -1,5 +1,40 @@
+/*
+*********************************************************************************************************
+ *  @File Name        : stats.controller.js
+ *  @Author           : <Siddhant Mahato>
+ *  @Company          : Antrazal
+ *  @Date             : 16-12-2025
+ *  @Description      :
+ *      Controller responsible for fetching policy statistics
+ *      such as active, cancelled, expired, and soon-to-expire
+ *      policies for dashboard display.
+ *
+ *********************************************************************************************************
+*/
+
+
+/*
+*********************************************************
+ *  IMPORT DATABASE CONFIGURATION
+ *  @Description :
+ *      Imports MySQL database connection instance
+ *      to execute statistics-related queries.
+*********************************************************
+*/
 const db = require('../config/dataBase');
 
+
+/*
+*********************************************************
+ *  @Method Name    : getPolicyStats
+ *  @Description    :
+ *      Fetches aggregated policy statistics from database.
+ *      Calculates counts for active, cancelled, expired,
+ *      and policies expiring within next 30 days.
+ *  @param          : req (Request)
+ *  @param          : res (Response)
+*********************************************************
+*/
 exports.getPolicyStats = (req, res) => {
 
     const sql = `
