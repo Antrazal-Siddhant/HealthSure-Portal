@@ -3,7 +3,7 @@
  *  @File Name        : dataBase.js
  *  @Author           : <Siddhant Mahato>
  *  @Company          : Antrazal
- *  @Date             : 16-12-2025
+ *  @Date             : 12-12-2025 to 16-12-2025
  *  @Description      :
  *      Database configuration module for HealthSure backend.
  *      Loads environment variables and establishes a MySQL
