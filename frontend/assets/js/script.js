@@ -1,3 +1,21 @@
+/*
+*********************************************************************************************************
+ *  @File Name        : script.js
+ *  @Author           : <Siddhant Mahato>
+ *  @Company          : Antrazal
+ *  @Date             : 16-12-2025
+ *  @Description      :
+ *      Frontend JavaScript controller for HealthSure Policy Operations Portal.
+ *      Handles search, patient onboarding, patient selection,
+ *      policy CRUD actions, renew/cancel workflows,
+ *      modal handling, and statistics rendering.
+ *
+ *********************************************************************************************************
+*/
+
+
+/* ============================= GLOBAL VARIABLES ============================= */
+
 const searchInput = document.querySelector('.search-box input');
 let renewPolicyNo = null;
 let selectedPatientId = null;
@@ -14,6 +32,17 @@ const progressText = document.getElementById('progressText');
 const step1Circle = document.getElementById('step1');
 const step2Circle = document.getElementById('step2');
 
+
+/*
+*********************************************************
+ *  @Method Name    : formatDate
+ *  @Description    :
+ *      Formats a date string into YYYY-MM-DD format
+ *      for policy table display.
+ *  @param          : dateStr
+ *  @return         : formatted date string
+*********************************************************
+*/
 function formatDate(dateStr) {
     if (!dateStr) return '-';
     const d = new Date(dateStr);
@@ -21,6 +50,15 @@ function formatDate(dateStr) {
 }
 
 
+/*
+*********************************************************
+ *  @Method Name    : calculateAge
+ *  @Description    :
+ *      Calculates age from date of birth.
+ *  @param          : dob
+ *  @return         : age
+*********************************************************
+*/
 function calculateAge(dob) {
     const birthDate = new Date(dob);
     const today = new Date();
@@ -39,6 +77,13 @@ function calculateAge(dob) {
 }
 
 
+/*
+*********************************************************
+ *  SEARCH INPUT EVENT
+ *  @Description :
+ *      Triggers patient search on input change.
+*********************************************************
+*/
 searchInput.addEventListener('input', () => {
     const value = searchInput.value;
 
@@ -50,16 +95,36 @@ searchInput.addEventListener('input', () => {
 });
 
 
+/*
+*********************************************************
+ *  @Method Name    : openModal
+ *  @Description    : Opens patient onboarding modal.
+*********************************************************
+*/
 function openModal() {
     document.getElementById('modalOverlay').classList.add('active');
 }
 
 
+/*
+*********************************************************
+ *  @Method Name    : closeModal
+ *  @Description    : Closes patient onboarding modal.
+*********************************************************
+*/
 function closeModal() {
     document.getElementById('modalOverlay').classList.remove('active');
 }
 
 
+/*
+*********************************************************
+ *  @Method Name    : closeModalOnOverlay
+ *  @Description    :
+ *      Closes modal when overlay is clicked.
+ *  @param          : event
+*********************************************************
+*/
 function closeModalOnOverlay(event) {
     if (event.target === event.currentTarget) {
         closeModal();
@@ -67,6 +132,16 @@ function closeModalOnOverlay(event) {
 }
 
 
+/*
+*********************************************************
+ *  @Method Name    : selectPatient
+ *  @Description    :
+ *      Handles patient row selection and loads
+ *      patient summary and policies.
+ *  @param          : row
+ *  @param          : patientId
+*********************************************************
+*/
 function selectPatient(row, patientId) {
     document.querySelectorAll('.patient-row').forEach(r =>
         r.classList.remove('selected')
@@ -74,13 +149,10 @@ function selectPatient(row, patientId) {
 
     row.classList.add('selected');
 
-    
     selectedPatientId = patientId;
 
-   
     document.getElementById('addPolicyBtn').style.display = 'inline-flex';
 
-   
     fetch(`http://localhost:3000/patients`)
         .then(res => res.json())
         .then(patients => {
@@ -90,7 +162,6 @@ function selectPatient(row, patientId) {
             }
         });
 
-    // Fetch policies
     fetch(`http://localhost:3000/policies/${patientId}`)
         .then(res => res.json())
         .then(policies => {
@@ -99,6 +170,11 @@ function selectPatient(row, patientId) {
 }
 
 
+/*
+*********************************************************
+ *  BACKEND CONNECTIVITY CHECK
+*********************************************************
+*/
 fetch('http://localhost:3000/test')
     .then(res => res.text())
     .then(data => {
@@ -109,6 +185,11 @@ fetch('http://localhost:3000/test')
     });
 
 
+/*
+*********************************************************
+ *  INITIAL PATIENT LOAD
+*********************************************************
+*/
 fetch('http://localhost:3000/patients')
     .then(res => res.json())
     .then(patients => {
@@ -116,7 +197,14 @@ fetch('http://localhost:3000/patients')
     });
 
 
-
+/*
+*********************************************************
+ *  @Method Name    : renderPatients
+ *  @Description    :
+ *      Renders patient list dynamically.
+ *  @param          : patients
+*********************************************************
+*/
 function renderPatients(patients) {
     const section = document.querySelector('.patients-section');
 
@@ -140,6 +228,14 @@ function renderPatients(patients) {
 }
 
 
+/*
+*********************************************************
+ *  @Method Name    : renderPolicies
+ *  @Description    :
+ *      Renders policy list for selected patient.
+ *  @param          : policies
+*********************************************************
+*/
 function renderPolicies(policies) {
     const table = document.querySelector('.policy-table');
 
@@ -187,14 +283,19 @@ function renderPolicies(policies) {
             </div>
         `;
 
-
         table.appendChild(row);
     });
 }
 
 
+/*
+*********************************************************
+ *  NEXT BUTTON EVENT
+ *  @Description :
+ *      Handles onboarding steps and final submission.
+*********************************************************
+*/
 nextBtn.addEventListener('click', () => {
-
 
     if (currentStep === 1) {
         formStep1.style.display = 'none';
@@ -249,6 +350,13 @@ nextBtn.addEventListener('click', () => {
 });
 
 
+/*
+*********************************************************
+ *  BACK BUTTON EVENT
+ *  @Description :
+ *      Navigates back to step 1 of onboarding.
+*********************************************************
+*/
 backBtn.addEventListener('click', () => {
 
     formStep2.style.display = 'none';
@@ -264,6 +372,15 @@ backBtn.addEventListener('click', () => {
     currentStep = 1;
 });
 
+
+/*
+*********************************************************
+ *  @Method Name    : updatePatientSummary
+ *  @Description    :
+ *      Updates patient summary card.
+ *  @param          : patient
+*********************************************************
+*/
 function updatePatientSummary(patient) {
     
     const avatar = document.getElementById('patient-avatar');
@@ -294,24 +411,33 @@ function updatePatientSummary(patient) {
 }
 
 
-
+/*
+*********************************************************
+ *  @Method Name    : openPolicyModal
+ *  @Description    : Opens add policy modal.
+*********************************************************
+*/
 function openPolicyModal() {
     document.getElementById('policyModalOverlay').classList.add('active');
 }
 
 
+/*
+*********************************************************
+ *  @Method Name    : closePolicyModal
+ *  @Description    : Closes add policy modal.
+*********************************************************
+*/
 function closePolicyModal() {
     document.getElementById('policyModalOverlay').classList.remove('active');
 }
 
 
-function closePolicyModalOnOverlay(event) {
-    if (event.target === event.currentTarget) {
-        closePolicyModal();
-    }
-}
-
-
+/*
+*********************************************************
+ *  SAVE POLICY EVENT
+*********************************************************
+*/
 document.getElementById('savePolicyBtn').addEventListener('click', () => {
 
     if (!selectedPatientId) {
@@ -357,6 +483,13 @@ document.getElementById('savePolicyBtn').addEventListener('click', () => {
 });
 
 
+/*
+*********************************************************
+ *  DOCUMENT CLICK HANDLER
+ *  @Description :
+ *      Handles renew and cancel policy actions.
+*********************************************************
+*/
 document.addEventListener('click', (e) => {
 
     if (e.target.classList.contains('renew-btn')) {
@@ -390,6 +523,13 @@ document.addEventListener('click', (e) => {
 });
 
 
+/*
+*********************************************************
+ *  @Method Name    : refreshPolicyAndPatients
+ *  @Description    :
+ *      Refreshes patient list, policies and statistics.
+*********************************************************
+*/
 function refreshPolicyAndPatients() {
     fetch(`http://localhost:3000/policies/${selectedPatientId}`)
         .then(res => res.json())
@@ -402,6 +542,12 @@ function refreshPolicyAndPatients() {
     loadPolicyStats();
 }
 
+
+/*
+*********************************************************
+ *  CONFIRM RENEW EVENT
+*********************************************************
+*/
 document.getElementById('confirmRenewBtn').addEventListener('click', () => {
     const startDate = document.getElementById('renewStartDate').value;
     const endDate = document.getElementById('renewEndDate').value;
@@ -430,11 +576,25 @@ document.getElementById('confirmRenewBtn').addEventListener('click', () => {
 });
 
 
+/*
+*********************************************************
+ *  @Method Name    : closeRenewModal
+ *  @Description    : Closes renew policy modal.
+*********************************************************
+*/
 function closeRenewModal() {
     document.getElementById('renewPolicyModal').classList.remove('active');
 }
 
 
+/*
+*********************************************************
+ *  @Method Name    : closeRenewModalOnOverlay
+ *  @Description    :
+ *      Closes renew modal when overlay is clicked.
+ *  @param          : e
+*********************************************************
+*/
 function closeRenewModalOnOverlay(e) {
     if (e.target === e.currentTarget) {
         closeRenewModal();
@@ -442,6 +602,13 @@ function closeRenewModalOnOverlay(e) {
 }
 
 
+/*
+*********************************************************
+ *  @Method Name    : loadPolicyStats
+ *  @Description    :
+ *      Loads policy statistics for dashboard.
+*********************************************************
+*/
 function loadPolicyStats() {
     fetch('http://localhost:3000/policy-stats')
         .then(res => res.json())
