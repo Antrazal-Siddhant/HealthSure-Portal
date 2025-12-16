@@ -1,6 +1,39 @@
+/*
+*********************************************************************************************************
+ *  @File Name        : policy.controller.js
+ *  @Author           : <Siddhant Mahato>
+ *  @Company          : Antrazal
+ *  @Date             : 16-12-2025
+ *  @Description      :
+ *      Controller responsible for handling policy-related operations
+ *      including fetching policies for a patient, creating new policies,
+ *      renewing existing policies, and cancelling active policies.
+ *
+
+ *********************************************************************************************************
+*/
+
+
+/*
+*********************************************************
+ *  IMPORT DATABASE CONFIGURATION
+ *  @Description :
+ *      Imports MySQL database connection instance
+ *      to execute policy-related queries.
+*********************************************************
+*/
 const db = require('../config/dataBase');
 
 
+/*
+*********************************************************
+ *  @Method Name    : getPoliciesByPatient
+ *  @Description    :
+ *      Fetches all policies associated with a given patient.
+ *  @param          : req (Request)
+ *  @param          : res (Response)
+*********************************************************
+*/
 exports.getPoliciesByPatient = (req, res) => {
     const patientId = req.params.patientId;
 
@@ -27,6 +60,15 @@ exports.getPoliciesByPatient = (req, res) => {
 
 
 
+/*
+*********************************************************
+ *  @Method Name    : createPolicy
+ *  @Description    :
+ *      Creates a new policy record for a patient.
+ *  @param          : req (Request)
+ *  @param          : res (Response)
+*********************************************************
+*/
 exports.createPolicy = (req, res) => {
     const {
         patientId,
@@ -61,6 +103,16 @@ exports.createPolicy = (req, res) => {
 
 
 
+/*
+*********************************************************
+ *  @Method Name    : renewPolicy
+ *  @Description    :
+ *      Renews an existing policy by updating dates
+ *      and setting status to Active.
+ *  @param          : req (Request)
+ *  @param          : res (Response)
+*********************************************************
+*/
 exports.renewPolicy = (req, res) => {
     const { policyNo } = req.params;
     const { startDate, endDate } = req.body;
@@ -104,6 +156,16 @@ exports.renewPolicy = (req, res) => {
 
 
 
+/*
+*********************************************************
+ *  @Method Name    : cancelPolicy
+ *  @Description    :
+ *      Cancels an active policy and records
+ *      the cancellation reason.
+ *  @param          : req (Request)
+ *  @param          : res (Response)
+*********************************************************
+*/
 exports.cancelPolicy = (req, res) => {
     const { policyNo } = req.params;
     const { reason } = req.body;
