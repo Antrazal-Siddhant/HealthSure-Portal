@@ -1,5 +1,40 @@
+/*
+*********************************************************************************************************
+ *  @File Name        : patient.controller.js
+ *  @Author           : <Siddhant Mahato>
+ *  @Company          : Antrazal
+ *  @Date             : 16-12-2025
+ *  @Description      :
+ *      Controller responsible for handling patient-related
+ *      operations such as fetching patient list with search
+ *      and creating new patient records.
+ *
+ *********************************************************************************************************
+*/
+
+
+/*
+*********************************************************
+ *  IMPORT DATABASE CONFIGURATION
+ *  @Description :
+ *      Imports MySQL database connection instance
+ *      to execute patient-related queries.
+*********************************************************
+*/
 const db = require('../config/dataBase');
 
+
+/*
+*********************************************************
+ *  @Method Name    : getPatients
+ *  @Description    :
+ *      Fetches patient list from database.
+ *      Supports search by patient name or phone number.
+ *      Also returns count of active policies per patient.
+ *  @param          : req (Request)
+ *  @param          : res (Response)
+*********************************************************
+*/
 exports.getPatients = (req, res) => {
     const search = req.query.q || '';
 
@@ -30,6 +65,17 @@ exports.getPatients = (req, res) => {
     });
 };
 
+
+/*
+*********************************************************
+ *  @Method Name    : createPatient
+ *  @Description    :
+ *      Creates a new patient record in the database.
+ *      Supports optional patient image upload.
+ *  @param          : req (Request)
+ *  @param          : res (Response)
+*********************************************************
+*/
 exports.createPatient = (req, res) => {
     const { firstName, lastName, phone, address, dob, email } = req.body;
 
