@@ -3,7 +3,7 @@
  *  @File Name        : script.js
  *  @Author           : <Siddhant Mahato>
  *  @Company          : Antrazal
- *  @Date             : 16-12-2025
+ *  @Date             : 10-12-2025 to 16-12-2025
  *  @Description      :
  *      Frontend JavaScript controller for HealthSure Policy Operations Portal.
  *      Handles search, patient onboarding, patient selection,
